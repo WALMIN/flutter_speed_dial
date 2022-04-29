@@ -1,12 +1,13 @@
 import 'dart:io';
 import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'animated_child.dart';
-import 'global_key_extension.dart';
 import 'animated_floating_button.dart';
 import 'background_overlay.dart';
+import 'global_key_extension.dart';
 import 'speed_dial_child.dart';
 import 'speed_dial_direction.dart';
 
@@ -532,74 +533,82 @@ class _ChildrensOverlay extends StatelessWidget {
       children: [
         Positioned(
             child: CompositedTransformFollower(
-          followerAnchor: widget.direction.isDown
-              ? widget.switchLabelPosition
-                  ? Alignment.topLeft
-                  : Alignment.topRight
-              : widget.direction.isUp
-                  ? widget.switchLabelPosition
-                      ? Alignment.bottomLeft
-                      : Alignment.bottomRight
-                  : widget.direction.isLeft
-                      ? Alignment.centerRight
-                      : widget.direction.isRight
-                          ? Alignment.centerLeft
-                          : Alignment.center,
-          offset: widget.direction.isDown
-              ? Offset(
-                  (widget.switchLabelPosition ||
-                              dialKey.globalPaintBounds == null
-                          ? 0
-                          : dialKey.globalPaintBounds!.size.width) +
-                      max(widget.childrenButtonSize.height - 56, 0) / 2,
-                  dialKey.globalPaintBounds!.size.height)
-              : widget.direction.isUp
-                  ? Offset(
-                      (widget.switchLabelPosition ||
-                                  dialKey.globalPaintBounds == null
-                              ? 0
-                              : dialKey.globalPaintBounds!.size.width) +
-                          max(widget.childrenButtonSize.width - 56, 0) / 2,
-                      0)
-                  : widget.direction.isLeft
-                      ? Offset(
-                          -10.0, dialKey.globalPaintBounds!.size.height / 2)
-                      : widget.direction.isRight ||
-                              dialKey.globalPaintBounds == null
-                          ? Offset(dialKey.globalPaintBounds!.size.width + 12,
-                              dialKey.globalPaintBounds!.size.height / 2)
-                          : const Offset(-10.0, 0.0),
-          link: layerLink,
-          showWhenUnlinked: false,
-          child: Material(
-            type: MaterialType.transparency,
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: widget.direction.isUp || widget.direction.isDown
-                    ? max(widget.buttonSize.width - 56, 0) / 2
-                    : 0,
-              ),
-              margin: widget.spacing != null
-                  ? EdgeInsets.fromLTRB(
-                      widget.direction.isRight ? widget.spacing! : 0,
-                      widget.direction.isDown ? widget.spacing! : 0,
-                      widget.direction.isLeft ? widget.spacing! : 0,
-                      widget.direction.isUp ? widget.spacing! : 0,
-                    )
-                  : null,
-              child: _buildColumnOrRow(
-                widget.direction.isUp || widget.direction.isDown,
-                crossAxisAlignment: widget.switchLabelPosition
-                    ? CrossAxisAlignment.start
-                    : CrossAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
-                children: widget.direction.isDown || widget.direction.isRight
-                    ? _getChildrenList().reversed.toList()
-                    : _getChildrenList(),
-              ),
-            ),
-          ),
-        )),
+                followerAnchor: widget.direction.isDown
+                    ? widget.switchLabelPosition
+                        ? Alignment.topLeft
+                        : Alignment.topRight
+                    : widget.direction.isUp
+                        ? widget.switchLabelPosition
+                            ? Alignment.bottomLeft
+                            : Alignment.bottomRight
+                        : widget.direction.isLeft
+                            ? Alignment.centerRight
+                            : widget.direction.isRight
+                                ? Alignment.centerLeft
+                                : Alignment.center,
+                offset: widget.direction.isDown
+                    ? Offset(
+                        (widget.switchLabelPosition ||
+                                    dialKey.globalPaintBounds == null
+                                ? 0
+                                : dialKey.globalPaintBounds!.size.width) +
+                            max(widget.childrenButtonSize.height - 56, 0) / 2,
+                        dialKey.globalPaintBounds!.size.height)
+                    : widget.direction.isUp
+                        ? Offset(
+                            (widget.switchLabelPosition ||
+                                        dialKey.globalPaintBounds == null
+                                    ? 0
+                                    : dialKey.globalPaintBounds!.size.width) +
+                                max(widget.childrenButtonSize.width - 56, 0) /
+                                    2,
+                            0)
+                        : widget.direction.isLeft
+                            ? Offset(-10.0,
+                                dialKey.globalPaintBounds!.size.height / 2)
+                            : widget.direction.isRight ||
+                                    dialKey.globalPaintBounds == null
+                                ? Offset(
+                                    dialKey.globalPaintBounds!.size.width + 12,
+                                    dialKey.globalPaintBounds!.size.height / 2)
+                                : const Offset(-10.0, 0.0),
+                link: layerLink,
+                showWhenUnlinked: false,
+                child: Material(
+                    type: MaterialType.transparency,
+                    child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal:
+                              widget.direction.isUp || widget.direction.isDown
+                                  ? max(widget.buttonSize.width - 56, 0) / 2
+                                  : 0,
+                        ),
+                        margin: widget.spacing != null
+                            ? EdgeInsets.fromLTRB(
+                                widget.direction.isRight ? widget.spacing! : 0,
+                                widget.direction.isDown ? widget.spacing! : 0,
+                                widget.direction.isLeft ? widget.spacing! : 0,
+                                widget.direction.isUp ? widget.spacing! : 0,
+                              )
+                            : null,
+                        child: Container(
+                          padding: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height * 0.2),
+                          child: SingleChildScrollView(
+                              physics: const BouncingScrollPhysics(),
+                              child: _buildColumnOrRow(
+                                widget.direction.isUp ||
+                                    widget.direction.isDown,
+                                crossAxisAlignment: widget.switchLabelPosition
+                                    ? CrossAxisAlignment.start
+                                    : CrossAxisAlignment.end,
+                                mainAxisSize: MainAxisSize.min,
+                                children: widget.direction.isDown ||
+                                        widget.direction.isRight
+                                    ? _getChildrenList().reversed.toList()
+                                    : _getChildrenList(),
+                              )),
+                        )))))
       ],
     );
   }
